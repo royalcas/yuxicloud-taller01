@@ -1,0 +1,34 @@
+<h1>Values</h1>
+
+<mat-card *ngFor="let val of (values$ | async)" class="value-item-card">
+  <mat-card-content>
+    <div class="value-container">
+      <div class="value-select"></div>
+
+      <div class="value-text">
+        {{ val.value }}
+      </div>
+
+      <div class="value-actions">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="edit(val)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="delete(val.id)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<div class="actions">
+  <button mat-fab (click)="newValue()" color="primary">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

@@ -1,0 +1,14 @@
+.value-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: stretch;
+
+    .value-text {
+        flex-grow: 1;
+    }
+}
+
+.value-item-card {
+    margin-bottom: 10px;
+}
