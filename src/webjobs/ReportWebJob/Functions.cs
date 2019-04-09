@@ -16,7 +16,7 @@
         }
 
         // { "second" }, { "minute" }, { "hour" }, { "day" }, { "month" }, { "day-of-week" }
-        public void ExecuteWithTimer([TimerTrigger("0/5 * * * * *", RunOnStartup = false)] TimerInfo timerInfo, TextWriter log)
+        public void ExecuteWithTimer([TimerTrigger("0/10 * * * * *", RunOnStartup = false)] TimerInfo timerInfo, TextWriter log)
         {
             log.WriteLine("Execution Started...");
 
@@ -30,8 +30,8 @@
 
         private int GetRowTableCountFromDatabase()
         {
-            var countSqlQuery = "SELECT COUNT(1) FROM ValuesTableCarrero";
-            var count = 0;
+            const string countSqlQuery = "SELECT COUNT(1) FROM ValuesTableCarrero";
+            int count;
 
             using (var connection = new SqlConnection(_settings.SqlServerDbConnectionString))
                 count = connection.ExecuteScalar<int>(countSqlQuery);
@@ -41,8 +41,8 @@
 
         private int GetRowTableCountFromDatabaseWithManagedIdentity()
         {
-            var countSqlQuery = "SELECT COUNT(1) FROM ValuesTableCarrero";
-            var count = 0;
+            const string countSqlQuery = "SELECT COUNT(1) FROM ValuesTableCarrero";
+            int count;
 
             using (var connection = new SqlConnection(_settings.SqlServerDbConnectionStringManaged))
             {
