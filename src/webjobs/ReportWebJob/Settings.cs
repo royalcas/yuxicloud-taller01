@@ -10,6 +10,7 @@
 
         public string SqlServerDbConnectionString => GetEntry("ConnectionStrings", "SQLServerConnection");
 
+        public string SqlServerDbConnectionStringManaged => GetEntry("ConnectionStrings", "SQLServerConnectionManaged");
 
         private string GetEntry(string configurationRoot, string configurationKey) => _configuration[$"{configurationRoot}:{configurationKey}"];
     }

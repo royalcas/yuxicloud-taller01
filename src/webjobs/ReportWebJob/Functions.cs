@@ -3,6 +3,7 @@
     using System.IO;
     using System.Data.SqlClient;
     using Microsoft.Azure.WebJobs;
+    using Microsoft.Azure.Services.AppAuthentication;
     using Dapper;
 
     public class Functions
@@ -20,7 +21,9 @@
             log.WriteLine("Execution Started...");
 
             // Get Number of records in the database table
-            log.WriteLine($"Total number of records : {GetRowTableCountFromDatabase()}");
+            //log.WriteLine($"Total number of records : {GetRowTableCountFromDatabase()}");
+
+            log.WriteLine($"Total number of records : {GetRowTableCountFromDatabaseWithManagedIdentity()}");
 
             log.WriteLine("Execution Finished...");
         }
@@ -32,6 +35,21 @@
 
             using (var connection = new SqlConnection(_settings.SqlServerDbConnectionString))
                 count = connection.ExecuteScalar<int>(countSqlQuery);
+
+            return count;
+        }
+
+        private int GetRowTableCountFromDatabaseWithManagedIdentity()
+        {
+            var countSqlQuery = "SELECT COUNT(1) FROM ValuesTableCarrero";
+            var count = 0;
+
+            using (var connection = new SqlConnection(_settings.SqlServerDbConnectionStringManaged))
+            {
+                connection.AccessToken = (new AzureServiceTokenProvider()).GetAccessTokenAsync("https://database.windows.net/").Result;
+
+                count = connection.ExecuteScalar<int>(countSqlQuery);
+            }
 
             return count;
         }
